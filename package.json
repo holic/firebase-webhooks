@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "firebase-webhooks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify -d -t partialify -e dashboard/index.js -o public/dashboard.js",
+    "dev": "watchify -d -t partialify -e dashboard/index.js -o public/dashboard.js"
+  },
+  "dependencies": {
+    "browserify": "^10.2.1",
+    "firebase": "^2.2.5",
+    "partialify": "^3.1.3",
+    "watchify": "^3.2.1"
+  }
+}

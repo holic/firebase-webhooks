@@ -6,22 +6,24 @@
 		<div class="panel-body">
 			<form v-on="submit: add($event)" class="form-inline">
 				<code>new Firebase("</code>
-				<input v-model="firebase_url" type="text" class="form-control input-sm" placeholder="https://example.firebaseio.com/" required>
+				<input v-model="ref" type="text" class="form-control input-sm" placeholder="https://example.firebaseio.com/" required>
+				<code>").auth("</code>
+				<input v-model="token" type="text" class="form-control input-sm" placeholder="token or secret">
 				<code>").on("</code>
-				<select v-model="firebase_event" options="events" class="form-control input-sm" required></select>
+				<select v-model="event" options="events" class="form-control input-sm" required></select>
 				<code>", function () {</code>
-				<input v-model="webhook_url" type="text" class="form-control input-sm" placeholder="https://example.com/hooks/firebase" required>
+				<input v-model="url" type="text" class="form-control input-sm" placeholder="https://example.com/hooks/firebase" required>
 				<code>})</code>
 				<button type="submit" class="btn btn-sm btn-primary">Save</button>
 			</form>
 		</div>
 	</div>
 
-	<div v-repeat="hooks" class="panel panel-default">
+	<div v-repeat="hook: hooks" class="panel panel-default">
 		<div class="panel-body">
-			<code>new Firebase("{{ ref }}").on("{{ on }}")</code>
+			<code>new Firebase("{{ hook.ref }}").on("{{ hook.event }}")</code>
 			<span class="glyphicon glyphicon-chevron-right"></span>
-			<code>{{ url }}</code>
+			<code>{{ hook.url }}</code>
 		</div>
 	</div>
 </div>

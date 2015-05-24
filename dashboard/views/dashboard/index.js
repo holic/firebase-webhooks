@@ -14,9 +14,11 @@ module.exports = {
 		return {
 			hooks: null,
 			events: events,
-			firebase_url: null,
-			firebase_event: events[0],
-			webhook_url: null
+			// init form fields
+			ref: null,
+			token: null,
+			event: events[0],
+			url: null
 		}
 	},
 	methods: {
@@ -24,16 +26,18 @@ module.exports = {
 			event.preventDefault()
 
 			hooksRef().push({
-				ref: this.firebase_url,
-				on: this.firebase_event,
-				url: this.webhook_url,
+				ref: this.ref,
+				token: this.token && this.token !== '' ? this.token : null,
+				event: this.event,
+				url: this.url,
 				created_at: Firebase.ServerValue.TIMESTAMP
 			}, function (err) {
 				if (err) console.error('Could not add hook:', err)
 			})
 
-			this.firebase_url = null
-			this.webhook_url = null
+			this.ref = null
+			this.token = null
+			this.url = null
 		}
 	},
 	created: function () {

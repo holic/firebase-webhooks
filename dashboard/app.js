@@ -1,4 +1,4 @@
-var baseRef = require('./firebase')
+var firebase = require('./firebase')
 
 module.exports = {
 	template: require('./app.html'),
@@ -10,7 +10,7 @@ module.exports = {
 		view: null
 	},
 	created: function () {
-		baseRef.onAuth(function (authData) {
+		firebase.onAuth(function (authData) {
 			this.view = authData ? 'dashboard' : 'login'
 		}, this)
 	}

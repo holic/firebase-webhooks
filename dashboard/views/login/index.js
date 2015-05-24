@@ -1,4 +1,6 @@
-var baseRef = require('../../firebase')
+var firebase = require('../../firebase')
+
+// TODO: store logins
 
 module.exports = {
 	template: require('./login.html'),
@@ -6,7 +8,7 @@ module.exports = {
 		login: function (event) {
 			event.preventDefault()
 
-			baseRef.authWithOAuthPopup('github', function (err, authData) {
+			firebase.authWithOAuthPopup('github', function (err, authData) {
 				if (err) {
 					console.log('Login failed:', err)
 					alert('Login failed.\n\n' + err.message)

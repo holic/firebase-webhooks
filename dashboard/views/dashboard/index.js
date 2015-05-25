@@ -21,6 +21,12 @@ module.exports = {
 			url: null
 		}
 	},
+	filters: {
+		date: function (timestamp) {
+			if (!timestamp) return
+			return new Date(timestamp)
+		}
+	},
 	methods: {
 		add: function (event) {
 			// TODO: test input on live `new Firebase()` call to validate

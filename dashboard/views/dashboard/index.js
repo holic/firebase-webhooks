@@ -23,6 +23,8 @@ module.exports = {
 	},
 	methods: {
 		add: function (event) {
+			// TODO: test input on live `new Firebase()` call to validate
+
 			event.preventDefault()
 
 			hooksRef().push({

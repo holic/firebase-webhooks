@@ -46,8 +46,8 @@ function bindHook (hook) {
 		})
 	}
 
-	if (config.token) {
-		ref.authWithCustomToken(config.token, function (err, auth) {
+	if (opts.token) {
+		ref.authWithCustomToken(opts.token, function (err, auth) {
 			if (err) {
 				console.error('Could not authenticate ref:', hook.ref().toString(), err)
 				// TODO: log error in Firebase

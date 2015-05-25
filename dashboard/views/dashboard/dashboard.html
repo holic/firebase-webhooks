@@ -5,13 +5,13 @@
 		</div>
 		<div class="panel-body">
 			<form v-on="submit: add($event)" class="form-inline">
-				<code>new Firebase("</code>
+				<samp>new Firebase("</samp>
 				<input v-model="ref" type="text" class="form-control input-sm" placeholder="https://example.firebaseio.com/" required>
-				<code>").auth("</code>
+				<samp>").auth("</samp>
 				<input v-model="token" type="text" class="form-control input-sm" placeholder="token or secret">
-				<code>").on("</code>
+				<samp>").on("</samp>
 				<select v-model="event" options="events" class="form-control input-sm" required></select>
-				<code>")</code>
+				<samp>")</samp>
 				<span class="glyphicon glyphicon-chevron-right"></span>
 				<input v-model="url" type="text" class="form-control input-sm" placeholder="https://example.com/hooks/firebase" required>
 				<button type="submit" class="btn btn-sm btn-primary">Save</button>
@@ -23,9 +23,13 @@
 		<div class="panel-body">
 			<button v-on="click: remove($event, hook.id)" type="button" class="close">&times;</button>
 
-			<code>new Firebase("{{ hook.ref }}").on("{{ hook.event }}")</code>
+			<span v-if="!hook.last_call" class="text-muted glyphicon glyphicon-time"></span>
+			<span v-if="hook.last_status >= 200 && hook.last_status <= 299" class="text-success glyphicon glyphicon-ok-sign"></span>
+			<span v-if="hook.last_status < 200 || hook.last_status > 299" class="text-danger glyphicon glyphicon-exclamation-sign"></span>
+
+			<samp>new Firebase("{{ hook.ref }}").on("{{ hook.event }}")</samp>
 			<span class="glyphicon glyphicon-chevron-right"></span>
-			<code>{{ hook.url }}</code>
+			<samp>{{ hook.url }}</samp>
 		</div>
 	</div>
 </div>

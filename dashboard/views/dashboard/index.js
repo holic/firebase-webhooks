@@ -61,7 +61,9 @@ module.exports = {
 					id: hook.ref().toString(),
 					ref: val.ref,
 					event: val.event,
-					url: val.url
+					url: val.url,
+					last_call: val.called_at,
+					last_status: val.response_status
 				})
 			})
 

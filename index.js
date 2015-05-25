@@ -79,6 +79,13 @@ function bindHook (hook) {
 				.post(opts.url)
 				.send(payload)
 				.end(function (err, res) {
+					hook.ref().update({
+						called_at: Firebase.ServerValue.TIMESTAMP,
+						response_status: res.status
+					}, function (err) {
+						if (err) return console.error('Could not record hook called timestamp')
+					})
+
 					if (err) {
 						console.error('Could not POST payload:', opts.url, err)
 						// TODO: log error in Firebase

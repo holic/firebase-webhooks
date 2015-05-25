@@ -24,7 +24,6 @@ module.exports = {
 	methods: {
 		add: function (event) {
 			// TODO: test input on live `new Firebase()` call to validate
-
 			event.preventDefault()
 
 			hooksRef().push({
@@ -40,13 +39,33 @@ module.exports = {
 			this.ref = null
 			this.token = null
 			this.url = null
+		},
+		remove: function (event, ref) {
+			event.preventDefault()
+
+			new Firebase(ref).remove(function (err) {
+				if (err) console.error('Could not remove hook:', err)
+			})
 		}
 	},
 	created: function () {
 		var auth = firebase.getAuth()
 
 		hooksRef().on('value', function (snapshot) {
-			this.hooks = snapshot.val()
+			var hooks = []
+
+			snapshot.forEach(function (hook) {
+				var val = hook.val()
+
+				hooks.push({
+					id: hook.ref().toString(),
+					ref: val.ref,
+					event: val.event,
+					url: val.url
+				})
+			})
+
+			this.hooks = hooks
 		}, function (err) {
 			console.error('Could not get hooks:', err)
 		}, this)

@@ -10,6 +10,9 @@ baseRef.authWithCustomToken(process.env.FIREBASE_SECRET, function (err, result) 
 })
 
 
+var hooks = {}
+
+
 function bindUsers (ref) {
 	ref.on('child_added', function (snapshot) {
 		console.log('Got user', snapshot.key())
@@ -24,12 +27,28 @@ function bindHooks (ref) {
 		console.log('Got hook', snapshot.val())
 		bindHook(snapshot)
 	}, function (err) {
-		conosle.error(err)
+		console.error(err)
+	})
+
+	ref.on('child_removed', function (snapshot) {
+		console.log('Hook removed', snapshot.val())
+		unbindHook(snapshot)
+	}, function (err) {
+		console.error(err)
 	})
 }
 
+function unbindHook (hook) {
+	var id = hook.ref().toString()
+	var unhook = hooks[id]
+	if (!unhook) return console.log('no unhook for:', id)
+
+	console.log('unbinding:', id)
+	unhook()
+}
+
 function bindHook (hook) {
-	var id = hook.key()
+	var id = hook.ref().toString()
 	var opts = hook.val()
 
 	try {
@@ -41,8 +60,10 @@ function bindHook (hook) {
 	}
 
 	function bind () {
-		console.log('binding')
-		ref.on(opts.event, function (snapshot, prev) {
+		if (hooks[id]) return console.log('already bound:', id)
+
+		console.log('binding:', id)
+		var handler = ref.on(opts.event, function (snapshot, prev) {
 			var payload = {
 				event: {
 					ref: opts.ref,
@@ -64,9 +85,13 @@ function bindHook (hook) {
 						return
 					}
 
-					console.log(res)
+					console.log('POSTed payload:', res.status)
 				})
 		})
+
+		hooks[id] = function () {
+			ref.off(opts.event, handler)
+		}
 	}
 
 	if (opts.token) {

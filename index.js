@@ -51,11 +51,25 @@ function bindHook (hook) {
 	var id = hook.ref().toString()
 	var opts = hook.val()
 
+	function update (lastResponse) {
+		hook.ref().update({
+			updated_at: Firebase.ServerValue.TIMESTAMP,
+			last_response: lastResponse,
+			has_error: !!lastResponse.error
+		}, function (err) {
+			if (err) return console.error('Could not update hook with last response')
+		})
+	}
+
 	try {
 		var ref = new Firebase(opts.ref)
 	}
 	catch (err) {
 		console.error('Could not create ref:', opts.ref, err)
+		update({
+			message: 'Could not create Firebase reference from provided URL.',
+			error: err.message
+		})
 		return
 	}
 
@@ -79,20 +93,30 @@ function bindHook (hook) {
 				.post(opts.url)
 				.send(payload)
 				.end(function (err, res) {
-					hook.ref().update({
-						called_at: Firebase.ServerValue.TIMESTAMP,
-						response_status: res.status
-					}, function (err) {
-						if (err) return console.error('Could not record hook called timestamp')
-					})
-
 					if (err) {
 						console.error('Could not POST payload:', opts.url, err)
-						// TODO: log error in Firebase
+						update({
+							message: 'Could not POST payload to provided URL.',
+							error: err.message
+						})
 						return
 					}
 
-					console.log('POSTed payload:', res.status)
+					console.log('POSTed payload:', res.status, opts.url)
+
+					if (res.error) {
+						update({
+							message: 'Payload URL returned a 4xx or 5xx response.',
+							error: res.error.message,
+							status: res.status
+						})
+						return
+					}
+
+					update({
+						message: 'Success!',
+						status: res.status
+					})
 				})
 		})
 
@@ -105,7 +129,10 @@ function bindHook (hook) {
 		ref.authWithCustomToken(opts.token, function (err, auth) {
 			if (err) {
 				console.error('Could not authenticate ref:', opts, hook.ref().toString(), err)
-				// TODO: log error in Firebase
+				update({
+					error: 'Could not authenticate Firebase reference with provided custom token/secret.',
+					message: err.message
+				})
 				return
 			}
 

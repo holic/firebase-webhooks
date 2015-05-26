@@ -15,8 +15,10 @@ module.exports = {
 				}
 
 				if (auth) {
-					auth.updated_at = Firebase.ServerValue.TIMESTAMP
-					firebase.child('users').child(auth.uid).set(auth)
+					firebase.child('users').child(auth.uid).update({
+						updated_at: Firebase.ServerValue.TIMESTAMP,
+						last_auth: auth
+					})
 				}
 			})
 		}

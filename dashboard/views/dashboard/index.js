@@ -65,20 +65,14 @@ module.exports = {
 			console.log('fetching hooks')
 
 			hooksRef().on('value', function (snapshot) {
-				console.log('got hooks')
+				console.log('got hooks', snapshot.val())
 				var hooks = []
 
 				snapshot.forEach(function (hook) {
 					var val = hook.val()
-
-					hooks.push({
-						id: hook.ref().toString(),
-						ref: val.ref,
-						event: val.event,
-						url: val.url,
-						last_call: val.called_at,
-						last_status: val.response_status
-					})
+					// add full reference path to hook data
+					val.id = hook.ref().toString()
+					hooks.push(val)
 				})
 
 				this.hooks = hooks

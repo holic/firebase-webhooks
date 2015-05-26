@@ -26,29 +26,20 @@ module.exports = {
 				childRef: matches[2]
 			}
 		},
-		isWaiting: function () {
-			return !this.last_call
-		},
-		hasSuccess: function () {
-			return this.last_status >= 200 && this.last_status <= 299
-		},
-		hasError: function () {
-			return this.last_status < 200 || this.last_status > 299
-		},
 		classes: function () {
-			if (this.isWaiting) {
+			if (!this.last_response) {
 				return {
 					text: 'text-muted',
 					icon: 'glyphicon glyphicon-time'
 				}
 			}
-			if (this.hasSuccess) {
+			if (!this.has_error) {
 				return {
 					text: 'text-success',
 					icon: 'glyphicon glyphicon-ok-sign'
 				}
 			}
-			if (this.hasError) {
+			if (this.has_error) {
 				return {
 					text: 'text-danger',
 					icon: 'glyphicon glyphicon-exclamation-sign'

@@ -1,1 +1,2 @@
-<div v-component="{{ view }}"></div>
+<div v-component="dashboard"></div>
+<div v-if="!isLoggedIn" v-component="login"></div>

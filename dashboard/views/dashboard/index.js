@@ -9,6 +9,7 @@ function hooksRef () {
 }
 
 module.exports = {
+	replace: true,
 	template: require('./dashboard.html'),
 	components: {
 		hook: require('../../components/hook')
@@ -49,30 +50,41 @@ module.exports = {
 			new Firebase(ref).remove(function (err) {
 				if (err) console.error('Could not remove hook:', err)
 			})
+		},
+		logout: function (event) {
+			event.preventDefault()
+			console.log('logging out')
+			firebase.unauth()
 		}
 	},
 	created: function () {
-		var auth = firebase.getAuth()
+		firebase.onAuth(function (authData) {
+			this.hooks = null
+			if (!authData) return
 
-		hooksRef().on('value', function (snapshot) {
-			var hooks = []
+			console.log('fetching hooks')
 
-			snapshot.forEach(function (hook) {
-				var val = hook.val()
+			hooksRef().on('value', function (snapshot) {
+				console.log('got hooks')
+				var hooks = []
 
-				hooks.push({
-					id: hook.ref().toString(),
-					ref: val.ref,
-					event: val.event,
-					url: val.url,
-					last_call: val.called_at,
-					last_status: val.response_status
+				snapshot.forEach(function (hook) {
+					var val = hook.val()
+
+					hooks.push({
+						id: hook.ref().toString(),
+						ref: val.ref,
+						event: val.event,
+						url: val.url,
+						last_call: val.called_at,
+						last_status: val.response_status
+					})
 				})
-			})
 
-			this.hooks = hooks
-		}, function (err) {
-			console.error('Could not get hooks:', err)
+				this.hooks = hooks
+			}, function (err) {
+				console.error('Could not get hooks:', err)
+			}, this)
 		}, this)
 	}
 }

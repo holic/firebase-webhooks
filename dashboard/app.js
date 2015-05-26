@@ -7,11 +7,11 @@ module.exports = {
 		dashboard: require('./views/dashboard')
 	},
 	data: {
-		view: null
+		isLoggedIn: false
 	},
 	created: function () {
 		firebase.onAuth(function (authData) {
-			this.view = authData ? 'dashboard' : 'login'
+			this.isLoggedIn = !!authData
 		}, this)
 	}
 }

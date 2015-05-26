@@ -3,6 +3,7 @@ var firebase = require('../../firebase')
 // TODO: store logins
 
 module.exports = {
+	replace: true,
 	template: require('./login.html'),
 	methods: {
 		login: function (event) {

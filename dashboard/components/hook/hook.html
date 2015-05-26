@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default has-hidden-details">
 	<div class="panel-body">
 		<button v-on="click: remove($event, id)" type="button" class="close">&times;</button>
 
@@ -13,10 +13,19 @@
 		</samp>
 	</div>
 	<div class="panel-footer {{ classes.text }}">
-		<small v-if="updated_at" class="pull-right text-muted">{{ updated_at | fromNow }}</small>
+		<small v-if="updated_at" class="pull-right text-muted hidden-detail">
+			<span class="glyphicon glyphicon-time"></span>
+			{{ updated_at | fromNow }}
+		</small>
 
 		<span class="{{ classes.icon }}"></span>
 		&nbsp;
 		<samp>{{ url }}</samp>
+		&nbsp;
+
+		<small v-if="has_error" class="text-muted hidden-detail">
+			<span class="glyphicon glyphicon-info-sign"></span>
+			{{ last_response.message }}
+		</small>
 	</div>
 </div>

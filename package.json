@@ -8,6 +8,9 @@
     "build": "browserify -d -t partialify -e dashboard/index.js -o public/dashboard.js",
     "dev": "watchify -d -t partialify -e dashboard/index.js -o public/dashboard.js"
   },
+  "engines": {
+    "node": "0.10.x"
+  },
   "dependencies": {
     "firebase": "^2.2.5",
     "superagent": "^1.2.0"

@@ -13,12 +13,6 @@ module.exports = {
 	components: {
 		hook: require('../../components/hook')
 	},
-	filters: {
-		date: function (timestamp) {
-			if (!timestamp) return
-			return new Date(timestamp)
-		}
-	},
 	data: function () {
 		return {
 			hooks: null,

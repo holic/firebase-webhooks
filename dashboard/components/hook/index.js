@@ -1,8 +1,15 @@
 var FIREBASE_RE = /^https:\/\/(.*?)\.firebaseio\.com(?:\/(.*))?$/i
+var moment = require('moment')
 
 module.exports = {
 	replace: true,
 	template: require('./hook.html'),
+	filters: {
+		fromNow: function (timestamp) {
+			if (!timestamp) return
+			return moment(timestamp).fromNow()
+		}
+	},
 	computed: {
 		splitRef: function () {
 			var matches = this.ref.match(FIREBASE_RE)

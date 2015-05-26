@@ -25,17 +25,24 @@ At your payload URL, you should start receiving `POST` requests with a JSON body
 }
 ```
 
+**Please note** that updates may be sent again if the listening server is changed and needs to be redeployed.
+
+
+### Disclaimer
+
+This is a plaything. It may or may not send duplicate updates or none at all. It may or may not fall over. It may or may not hammer your server. Use with caution!
+
 
 # Contributing
 
-I'd love some help!
+I'd love some help in making this a bit more robust and stable so that I feel comfortable removing the disclaimer above.
 
 ### TODO
 
 - validate form input (e.g. make sure URLs are URLs)
 - add tests for dashboard
 - add tests for webhook server/listeners
-- add rate limiting
+- add throttling/rate limiting
 - stop webhook on hard failure (e.g. `new Firebase()` exceptions)
 - stop/pause webhook after `x` failed requests
 - log all webhook requests/responses for debugging

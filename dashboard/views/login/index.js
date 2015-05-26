@@ -1,6 +1,5 @@
+var Firebase = require('firebase')
 var firebase = require('../../firebase')
-
-// TODO: store logins
 
 module.exports = {
 	replace: true,
@@ -9,10 +8,15 @@ module.exports = {
 		login: function (event) {
 			event.preventDefault()
 
-			firebase.authWithOAuthPopup('github', function (err, authData) {
+			firebase.authWithOAuthPopup('github', function (err, auth) {
 				if (err) {
 					console.log('Login failed:', err)
 					alert('Login failed.\n\n' + err.message)
+				}
+
+				if (auth) {
+					auth.updated_at = Firebase.ServerValue.TIMESTAMP
+					firebase.child('users').child(auth.uid).set(auth)
 				}
 			})
 		}

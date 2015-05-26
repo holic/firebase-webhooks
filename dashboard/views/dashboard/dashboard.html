@@ -1,23 +1,33 @@
-<div class="container">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">Add a webhook</h3>
-		</div>
-		<div class="panel-body">
-			<form v-on="submit: add($event)" class="form-inline">
-				<samp>new Firebase("</samp>
-				<input v-model="ref" type="text" class="form-control input-sm" placeholder="https://example.firebaseio.com/" required>
-				<samp>").auth("</samp>
-				<input v-model="token" type="text" class="form-control input-sm" placeholder="token or secret">
-				<samp>").on("</samp>
-				<select v-model="event" options="events" class="form-control input-sm" required></select>
-				<samp>")</samp>
-				<span class="glyphicon glyphicon-chevron-right"></span>
-				<input v-model="url" type="text" class="form-control input-sm" placeholder="https://example.com/hooks/firebase" required>
-				<button type="submit" class="btn btn-sm btn-primary">Save</button>
-			</form>
-		</div>
-	</div>
+<div class="section section-light">
+	<div class="container">
+		<form v-on="submit: add($event)">
+			<div class="row form-group">
+				<div class="col-sm-5">
+					<label class="control-label">Firebase URL</label>
+					<input v-model="ref" type="text" class="form-control" placeholder="https://example.firebaseio.com/" required>
+				</div>
+				<div class="col-md-2">
+					<label class="control-label">Event Type</label>
+					<select v-model="event" options="events" class="form-control" required></select>
+				</div>
+				<div class="col-md-5">
+					<label class="control-label">Auth Token</label>
+					&nbsp; <small class="text-muted"><em>Optional</em></small>
+					<input v-model="token" type="text" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Payload URL</label>
+				<input v-model="url" type="text" class="form-control" placeholder="https://example.com/hooks/firebase" required>
+			</div>
 
-	<div v-component="hook" v-repeat="hooks"></div>
+			<button type="submit" class="btn btn-success">Add webhook</button>
+		</form>
+	</div>
+</div>
+
+<div v-if="hooks" class="section">
+	<div class="container">
+		<div v-component="hook" v-repeat="hooks"></div>
+	</div>
 </div>

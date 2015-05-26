@@ -44,13 +44,6 @@ module.exports = {
 			this.token = null
 			this.url = null
 		},
-		remove: function (event, ref) {
-			event.preventDefault()
-
-			new Firebase(ref).remove(function (err) {
-				if (err) console.error('Could not remove hook:', err)
-			})
-		},
 		logout: function (event) {
 			event.preventDefault()
 			console.log('logging out')

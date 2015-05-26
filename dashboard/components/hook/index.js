@@ -1,5 +1,7 @@
-var FIREBASE_RE = /^https:\/\/(.*?)\.firebaseio\.com(?:\/(.*))?$/i
+var Firebase = require('firebase')
 var moment = require('moment')
+
+var FIREBASE_RE = /^https:\/\/(.*?)\.firebaseio\.com(?:\/(.*))?$/i
 
 module.exports = {
 	replace: true,
@@ -45,6 +47,15 @@ module.exports = {
 					icon: 'glyphicon glyphicon-exclamation-sign'
 				}
 			}
+		}
+	},
+	methods: {
+		remove: function (event, ref) {
+			event.preventDefault()
+
+			new Firebase(ref).remove(function (err) {
+				if (err) console.error('Could not remove hook:', err)
+			})
 		}
 	}
 }

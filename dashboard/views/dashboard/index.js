@@ -10,6 +10,15 @@ function hooksRef () {
 
 module.exports = {
 	template: require('./dashboard.html'),
+	components: {
+		hook: require('../../components/hook')
+	},
+	filters: {
+		date: function (timestamp) {
+			if (!timestamp) return
+			return new Date(timestamp)
+		}
+	},
 	data: function () {
 		return {
 			hooks: null,
@@ -19,12 +28,6 @@ module.exports = {
 			token: null,
 			event: events[0],
 			url: null
-		}
-	},
-	filters: {
-		date: function (timestamp) {
-			if (!timestamp) return
-			return new Date(timestamp)
 		}
 	},
 	methods: {

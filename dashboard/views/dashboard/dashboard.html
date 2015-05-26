@@ -19,17 +19,5 @@
 		</div>
 	</div>
 
-	<div v-repeat="hook: hooks" class="panel panel-default">
-		<div class="panel-body">
-			<button v-on="click: remove($event, hook.id)" type="button" class="close">&times;</button>
-
-			<span v-if="!hook.last_call" class="text-muted glyphicon glyphicon-time"></span>
-			<span v-if="hook.last_status >= 200 && hook.last_status <= 299" title="{{ hook.last_call | date }}" class="text-success glyphicon glyphicon-ok-sign"></span>
-			<span v-if="hook.last_status < 200 || hook.last_status > 299" title="{{ hook.last_call | date }}" class="text-danger glyphicon glyphicon-exclamation-sign"></span>
-
-			<samp>new Firebase("{{ hook.ref }}").on("{{ hook.event }}")</samp>
-			<span class="glyphicon glyphicon-chevron-right"></span>
-			<samp>{{ hook.url }}</samp>
-		</div>
-	</div>
+	<div v-component="hook" v-repeat="hooks"></div>
 </div>

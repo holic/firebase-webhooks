@@ -1,0 +1,19 @@
+<div class="panel panel-default">
+	<div class="panel-body">
+		<button v-on="click: remove($event, id)" type="button" class="close">&times;</button>
+
+		<samp>
+			<small class="text-muted">new Firebase("https://</small>
+			<strong>{{ splitRef.subdomain }}</strong>
+			<small class="text-muted">.firebaseio.com/</small>
+			<strong>{{ splitRef.childRef }}</strong>
+			<small class="text-muted">").on("</small>
+			<strong>{{ event }}</strong>
+			<small class="text-muted">")</small>
+		</samp>
+	</div>
+	<div class="panel-footer {{ classes.text }}">
+		<span class="{{ classes.icon }}"></span>
+		<samp>{{ url }}</samp>
+	</div>
+</div>

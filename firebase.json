@@ -1,0 +1,10 @@
+{
+  "firebase": "webhooks",
+  "public": "public",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ],
+  "rules": "firebase/security-rules.json"
+}

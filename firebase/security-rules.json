@@ -1,0 +1,19 @@
+{
+  "rules": {
+    "hooks": {
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid",
+        "$index": {
+          ".validate": "newData.hasChildren(['ref', 'event', 'url'])"
+        }
+      }
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid"
+      }
+    }
+  }
+}
